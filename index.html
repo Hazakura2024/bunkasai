@@ -145,11 +145,11 @@
                     currentScore += amount;
                     updateScoreDisplay();
                     addAmountInput.value = '';
-                    
-                    // ▼▼▼【修正点】この行を追加 ▼▼▼
-                    passwordInput.value = ''; 
-                    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-
+                    // パスワード欄を空にし、加算欄とボタンを再び無効化
+                    passwordInput.value = '';
+                    addSection.classList.remove('unlocked');
+                    addAmountInput.disabled = true;
+                    addButton.disabled = true;
                 } else {
                     alert('有効な金額を入力してください。');
                 }
