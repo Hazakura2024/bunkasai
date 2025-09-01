@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点数管理</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .score-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .form-section label, .form-section input, .form-section button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .form-section input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-section button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+        }
+        #pay-button {
+            background-color: #e74c3c;
+        }
+        #pay-button:hover {
+            background-color: #c0392b;
+        }
+        #add-button {
+            background-color: #2ecc71;
+        }
+        #add-button:hover {
+            background-color: #27ae60;
+        }
+        #add-section {
+            opacity: 0.5;
+        }
+        #add-section.unlocked {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>点数管理システム</h1>
+        <div class="score-display">現在の点数: <span id="current-score">5000</span></div>
+
+        <div class="form-section">
+            <h2>支払い</h2>
+            <input type="number" id="pay-amount" placeholder="支払い金額">
+            <button id="pay-button">支払い</button>
+        </div>
+
+        <div class="form-section" id="add-section">
+            <h2>加算</h2>
+            <input type="password" id="password" placeholder="パスワード">
+            <input type="number" id="add-amount" placeholder="加算金額" disabled>
+            <button id="add-button" disabled>加算</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scoreDisplay = document.getElementById('current-score');
+            const payAmountInput = document.getElementById('pay-amount');
+            const payButton = document.getElementById('pay-button');
+            const passwordInput = document.getElementById('password');
+            const addAmountInput = document.getElementById('add-amount');
+            const addButton = document.getElementById('add-button');
+            const addSection = document.getElementById('add-section');
+
+            let currentScore = 5000;
+            const correctPassword = '1234';
+
+            // 支払いボタンのイベントリスナー
+            payButton.addEventListener('click', () => {
+                const amount = parseInt(payAmountInput.value);
+                if (!isNaN(amount) && amount > 0) {
+                    currentScore -= amount;
+                    updateScoreDisplay();
+                    payAmountInput.value = '';
+                } else {
+                    alert('有効な金額を入力してください。');
+                }
+            });
+
+            // パスワードフォームのイベントリスナー
+            passwordInput.addEventListener('input', () => {
+                if (passwordInput.value === correctPassword) {
+                    addSection.classList.add('unlocked');
+                    addAmountInput.disabled = false;
+                    addButton.disabled = false;
+                } else {
+                    addSection.classList.remove('unlocked');
+                    addAmountInput.disabled = true;
+                    addButton.disabled = true;
+                }
+            });
+
+            // 加算ボタンのイベントリスナー
+            addButton.addEventListener('click', () => {
+                const amount = parseInt(addAmountInput.value);
+                if (!isNaN(amount) && amount > 0) {
+                    currentScore += amount;
+                    updateScoreDisplay();
+                    addAmountInput.value = '';
+                    
+                    // ▼▼▼【修正点】この行を追加 ▼▼▼
+                    passwordInput.value = ''; 
+                    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+                } else {
+                    alert('有効な金額を入力してください。');
+                }
+            });
+
+            // 点数表示を更新する関数
+            function updateScoreDisplay() {
+                scoreDisplay.textContent = currentScore;
+            }
+        });
+    </script>
+</body>
+</html>
