@@ -146,6 +146,9 @@
             <button id="add-button" disabled>加算</button>
         </div>
         <div class="footer">４年生　ゲームグループ</div>
+    
+    <button id="finish-button" style="margin-top:30px; padding:16px 32px; font-size:1.3em; background:linear-gradient(90deg,#ff00cc,#ffe600); color:#fff; font-weight:bold; border-radius:10px; border:none; box-shadow:0 0 16px #ff00cc; cursor:pointer;">終了</button>
+    <div id="final-score" style="display:none; font-size:2.5em; color:#39ff14; text-shadow:0 0 16px #39ff14,0 0 32px #ffe600; margin-top:40px; font-weight:bold;"></div>
     </div>
 
     <script>
@@ -157,6 +160,8 @@
             const addAmountInput = document.getElementById('add-amount');
             const addButton = document.getElementById('add-button');
             const addSection = document.getElementById('add-section');
+            const finishButton = document.getElementById('finish-button');
+            const finalScore = document.getElementById('final-score');
 
             let currentScore = 5000;
             const correctPassword = '1234';
@@ -201,6 +206,15 @@
                 } else {
                     alert('有効な金額を入力してください。');
                 }
+            });
+
+            // 終了ボタンのイベントリスナー
+            finishButton.addEventListener('click', () => {
+                finalScore.textContent = `最終スコア：${currentScore}`;
+                finalScore.style.display = 'block';
+                document.querySelector('.container').style.display = 'none';
+                // 最終スコアだけ大きく中央表示
+                document.body.appendChild(finalScore);
             });
 
             // 点数表示を更新する関数
