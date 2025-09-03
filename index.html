@@ -6,41 +6,58 @@
     <title>点数管理</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Orbitron', 'Meiryo', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #f0f0f0;
+            background: #1a1333;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(20, 10, 40, 0.95);
+            padding: 30px 20px;
+            border-radius: 18px;
+            box-shadow: 0 0 40px 10px #ff00cc44, 0 0 0 4px #ffe600, 0 0 0 8px #1a1333;
             width: 100%;
-            max-width: 500px;
+            max-width: 420px;
             text-align: center;
+            border: 3px solid #ffe600;
+            position: relative;
         }
-        h1, h2 {
-            color: #333;
+        h1 {
+            color: #ffe600;
+            font-size: 2.2em;
+            text-shadow: 0 0 10px #ffe600, 0 0 20px #ffe600;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #ff00cc;
+            font-size: 1.4em;
+            text-shadow: 0 0 8px #ff00cc, 0 0 16px #ff00cc;
+            margin-bottom: 8px;
         }
         .score-display {
             font-size: 2.5em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #ff00cc;
             margin-bottom: 20px;
+            text-shadow: 0 0 12px #ff00cc, 0 0 24px #ff00cc;
+        }
+        .score-display span {
+            color: #39ff14;
+            text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
         }
         .form-section {
             margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fafafa;
+            padding: 18px 12px;
+            border: 2px solid #ffe600;
+            border-radius: 10px;
+            background: rgba(30, 20, 60, 0.8);
+            box-shadow: 0 0 12px #ff00cc44;
         }
         .form-section label, .form-section input, .form-section button {
             display: block;
@@ -48,30 +65,44 @@
             margin-bottom: 10px;
         }
         .form-section input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 10px;
+            border: 2px solid #ff00cc;
+            border-radius: 6px;
             box-sizing: border-box;
+            background: #1a1333;
+            color: #fff;
+            font-size: 1.1em;
+            text-shadow: 0 0 6px #ff00cc44;
+        }
+        .form-section input:disabled {
+            background: #333;
+            color: #888;
+            border-color: #444;
         }
         .form-section button {
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             color: #fff;
             font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 0 10px #ff00cc44;
+            transition: background 0.2s;
         }
         #pay-button {
-            background-color: #e74c3c;
+            background: linear-gradient(90deg, #ff00cc 0%, #ffe600 100%);
+            text-shadow: 0 0 8px #ffe600, 0 0 16px #ff00cc;
         }
         #pay-button:hover {
-            background-color: #c0392b;
+            background: linear-gradient(90deg, #ffe600 0%, #ff00cc 100%);
         }
         #add-button {
-            background-color: #2ecc71;
+            background: linear-gradient(90deg, #39ff14 0%, #ff00cc 100%);
+            text-shadow: 0 0 8px #39ff14, 0 0 16px #ff00cc;
         }
         #add-button:hover {
-            background-color: #27ae60;
+            background: linear-gradient(90deg, #ff00cc 0%, #39ff14 100%);
         }
         #add-section {
             opacity: 0.5;
@@ -79,25 +110,42 @@
         #add-section.unlocked {
             opacity: 1;
         }
+        /* 下部テキスト */
+        .footer {
+            color: #ffe600;
+            font-size: 1em;
+            margin-top: 30px;
+            text-shadow: 0 0 8px #ffe600, 0 0 16px #ffe600;
+            letter-spacing: 0.2em;
+        }
+        /* 雷アイコン */
+        .icon-lightning {
+            color: #ffe600;
+            font-size: 1.3em;
+            margin: 0 8px;
+            vertical-align: middle;
+            text-shadow: 0 0 8px #ffe600, 0 0 16px #ffe600;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>点数管理システム</h1>
-        <div class="score-display">現在の点数: <span id="current-score">5000</span></div>
+        <h1>多目的ホール</h1>
+        <div class="score-display">A6ゲーム <span id="current-score">5000</span></div>
 
         <div class="form-section">
-            <h2>支払い</h2>
+            <h2><span class="icon-lightning">⚡</span>支払い<span class="icon-lightning">⚡</span></h2>
             <input type="number" id="pay-amount" placeholder="支払い金額">
             <button id="pay-button">支払い</button>
         </div>
 
         <div class="form-section" id="add-section">
-            <h2>加算</h2>
+            <h2><span class="icon-lightning">⚡</span>加算<span class="icon-lightning">⚡</span></h2>
             <input type="password" id="password" placeholder="パスワード">
             <input type="number" id="add-amount" placeholder="加算金額" disabled>
             <button id="add-button" disabled>加算</button>
         </div>
+        <div class="footer">４年生　ゲームグループ</div>
     </div>
 
     <script>
